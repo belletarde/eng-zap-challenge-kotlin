@@ -25,8 +25,46 @@
         android:textColor="@android:color/holo_green_light"
         android:gravity="center"
         android:textSize="28sp"
+        android:id="@+id/appNameText"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/splashImage"/>
+
+    <FrameLayout
+        android:background="@drawable/try_again_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:id="@+id/reloadButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appNameText">
+
+        <TextView
+            android:text="Tente Novamente"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:id="@+id/tryAgainText"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:src="@drawable/refresh_ic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/tryAgainLoad"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/load"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

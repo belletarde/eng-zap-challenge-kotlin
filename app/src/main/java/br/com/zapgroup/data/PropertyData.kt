@@ -10,5 +10,6 @@ interface PropertyData {
     fun getVivaList(): List<PropertyResponse>
     fun getZapList(): List<PropertyResponse>
     fun getById(id: String): PropertyResponse
+    fun hasStoredObject(): Boolean
 }
 

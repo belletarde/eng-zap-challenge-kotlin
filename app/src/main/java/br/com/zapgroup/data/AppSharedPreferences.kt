@@ -31,19 +31,23 @@ class AppSharedPreferences(
         return sharedPreferences.getBoolean(PROPERTY_STORED, false)
     }
 
+    override fun hasStoredObject(): Boolean {
+        return getPropertyObjectString().toPropertyResponse()?.list?.isNotEmpty() ?: throw Resources.NotFoundException()
+    }
+
     override fun getVivaList(): List<PropertyResponse> {
-        return getPropertyObjectString().toPropertyResponse().list.filter { it ->
+        return getPropertyObjectString().toPropertyResponse()?.list?.filter { it ->
             FetchBusinessLogic.getVivaLogic(it)
-        }
+        } ?: throw Resources.NotFoundException()
     }
 
     override fun getZapList(): List<PropertyResponse> {
-        return getPropertyObjectString().toPropertyResponse().list.filter { it ->
+        return getPropertyObjectString().toPropertyResponse()?.list?.filter { it ->
             FetchBusinessLogic.getZapLogic(it)
-        }
+        } ?: throw Resources.NotFoundException()
     }
 
     override fun getById(id: String): PropertyResponse {
-        return getPropertyObjectString().toPropertyResponse().list.find { it.id == id } ?: throw Resources.NotFoundException()
+        return getPropertyObjectString().toPropertyResponse()?.list?.find { it.id == id } ?: throw Resources.NotFoundException()
     }
 }
