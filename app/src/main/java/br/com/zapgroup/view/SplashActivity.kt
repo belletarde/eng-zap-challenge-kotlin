@@ -27,8 +27,7 @@ class SplashActivity : AppCompatActivity() {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
-                        val i = Intent(this, PropertyListActivity::class.java)
-                        startActivity(i)
+
                     }
                     Status.ERROR -> {
                         Toast.makeText(this, "Err", Toast.LENGTH_LONG).show()
