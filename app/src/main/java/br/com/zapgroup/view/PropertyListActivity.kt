@@ -1,16 +1,16 @@
 package br.com.zapgroup.view
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
+import br.com.zapgroup.R
 import br.com.zapgroup.databinding.ActivityPropertyListBinding
 import br.com.zapgroup.model.api.PropertyResponse
 import br.com.zapgroup.utils.Status
@@ -18,9 +18,7 @@ import br.com.zapgroup.utils.loadSnackBar
 import br.com.zapgroup.view.adapter.ItemClick
 import br.com.zapgroup.view.adapter.PropertyAdapter
 import br.com.zapgroup.viewmodel.PropertyListViewModel
-import org.koin.android.ext.android.bind
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.net.ProtocolException
 
 class PropertyListActivity : AppCompatActivity(), ItemClick {
 
@@ -29,7 +27,7 @@ class PropertyListActivity : AppCompatActivity(), ItemClick {
     private val propertyAdapter by lazy { PropertyAdapter(this) }
     private val linearLayoutManager by lazy { LinearLayoutManager(this) }
     private var page = 1
-    var loading = false
+    private var loading = false
 
     companion object {
         fun open(appCompatActivity: AppCompatActivity) {
@@ -38,19 +36,25 @@ class PropertyListActivity : AppCompatActivity(), ItemClick {
         }
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPropertyListBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initRecycler()
+        fetchZapList(page)
         binding.run {
             buttonZap.setOnClickListener {
                 page = 1
                 fetchZapList(page)
+                buttonViva.setBackgroundDrawable(resources.getDrawable(R.drawable.default_list_tab_bg));
+                it.setBackgroundDrawable(resources.getDrawable(R.drawable.seleceted_list_tab_bg));
             }
             buttonViva.setOnClickListener {
                 page = 1
                 fetchVivaList(page)
+                buttonZap.setBackgroundDrawable(resources.getDrawable(R.drawable.default_list_tab_bg));
+                it.setBackgroundDrawable(resources.getDrawable(R.drawable.seleceted_list_tab_bg));
             }
         }
     }

@@ -1,15 +1,12 @@
 package br.com.zapgroup.view.adapter
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import br.com.zapgroup.databinding.ListItemBinding
 import br.com.zapgroup.model.api.PropertyResponse
-import br.com.zapgroup.utils.loadUrl
 
 class PropertyViewHolder(
     private val itemClick: ItemClick,
@@ -23,7 +20,7 @@ class PropertyViewHolder(
                 root.setOnClickListener {
                     itemClick.onClickListener(id)
                 }
-                propertyImage.loadUrl(images[0], loadImage)
+                propertyImagePager.adapter = PropertyPageAdapter(propertyResponse, itemBinding.root.context, itemClick)
                 propertyAddress.text = "${address.neighborhood}, ${address.city}"
                 propertyDetail.text = "Quartos: $bedrooms, Banheiros: $bathrooms, Vagas: $parkingSpaces"
                 propertyArea.text = "${usableAreas.toString()} m²"

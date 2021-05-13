@@ -68,8 +68,8 @@ val netModule = module {
 
     fun provideHttpClient(): OkHttpClient {
         val builder = OkHttpClient.Builder()
-        builder.readTimeout(60, TimeUnit.SECONDS)
-        builder.connectTimeout(60, TimeUnit.SECONDS)
+        builder.readTimeout(15, TimeUnit.SECONDS)
+        builder.connectTimeout(15, TimeUnit.SECONDS)
         builder.addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
         return builder.build()
     }
