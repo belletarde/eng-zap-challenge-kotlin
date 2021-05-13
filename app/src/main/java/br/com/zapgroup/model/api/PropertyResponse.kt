@@ -1,8 +1,5 @@
 package br.com.zapgroup.model.api
 
-import br.com.zapgroup.data.SharedValues
-import com.google.gson.Gson
-
 data class PropertyResponse(
     val usableAreas: Int,
     val listingType: String,

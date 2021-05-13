@@ -1,4 +1,4 @@
-package br.com.zapgroup.view.customView
+package br.com.zapgroup.view.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater

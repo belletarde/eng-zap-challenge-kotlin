@@ -1,6 +1,5 @@
 package br.com.zapgroup.repository
 
-import br.com.zapgroup.model.api.MessageResponse
 import br.com.zapgroup.model.api.PropertyResponse
 
 interface SplashRepository {

@@ -137,9 +137,7 @@ class PropertyListActivity : AppCompatActivity(), ItemClick {
     }
 
     override fun onClickListener(id: String) {
-        val i = Intent(this, PropertyDetailActivity::class.java)
-        i.putExtra("EXTRA_ID", id)
-        startActivity(i)
+        PropertyDetailActivity.open(this, id)
     }
 
     private fun scrollListener(): OnScrollListener {

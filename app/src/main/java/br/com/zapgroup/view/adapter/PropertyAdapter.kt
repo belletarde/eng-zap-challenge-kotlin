@@ -1,6 +1,5 @@
 package br.com.zapgroup.view.adapter
 
-import android.content.Context
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import br.com.zapgroup.model.api.PropertyResponse

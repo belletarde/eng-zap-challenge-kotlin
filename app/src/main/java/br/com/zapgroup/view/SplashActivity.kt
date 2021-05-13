@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import br.com.zapgroup.R
 import br.com.zapgroup.databinding.ActivityMainBinding
-import br.com.zapgroup.utils.Connectivity.Companion.isConnected
 import br.com.zapgroup.utils.Status
 import br.com.zapgroup.utils.loadSnackBar
 import br.com.zapgroup.viewmodel.SplashViewModel
@@ -31,11 +30,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        if (isConnected(this)) {
-            fetchLatestProperties()
-        } else {
-            getLocalSored()
-        }
+        fetchLatestProperties()
     }
 
     private fun getLocalSored() {

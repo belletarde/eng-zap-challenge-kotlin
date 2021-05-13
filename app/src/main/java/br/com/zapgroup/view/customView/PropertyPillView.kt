@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.FrameLayout
 import br.com.zapgroup.R
 import br.com.zapgroup.databinding.DetailPillLayoutBinding
+import br.com.zapgroup.view.adapter.PropertyPillAdapter
 
 class PropertyPillView: FrameLayout {
     constructor(context: Context) : this(context, null)
