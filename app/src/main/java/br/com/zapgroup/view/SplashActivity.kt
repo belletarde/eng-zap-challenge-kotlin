@@ -40,7 +40,7 @@ class SplashActivity : AppCompatActivity() {
     private fun getLocalSored() {
         try {
             viewModel.hasStoredObject()
-            PropertyListActivity.open(this)
+            PropertyListActivity.open(appCompatActivity = this, error = true)
         } catch (exception: Resources.NotFoundException) {
             showReloadView()
         }

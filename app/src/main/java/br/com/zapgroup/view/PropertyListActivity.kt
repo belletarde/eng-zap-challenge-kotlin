@@ -30,8 +30,10 @@ class PropertyListActivity : AppCompatActivity(), ItemClick {
     private var loading = false
 
     companion object {
-        fun open(appCompatActivity: AppCompatActivity) {
+        private const val ERROR = "error"
+        fun open(appCompatActivity: AppCompatActivity, error: Boolean = false) {
             val intent = Intent(appCompatActivity, PropertyListActivity::class.java)
+            intent.putExtra(ERROR, error)
             appCompatActivity.startActivity(intent)
         }
     }
@@ -43,6 +45,17 @@ class PropertyListActivity : AppCompatActivity(), ItemClick {
         setContentView(binding.root)
         initRecycler()
         fetchZapList(page)
+        verifyExtra()
+        setBtn()
+    }
+
+    private fun verifyExtra() {
+        if(intent.getBooleanExtra(ERROR, false)) {
+            loadSnackBar(this, "Erro ao tentar atualizar lista")
+        }
+    }
+
+    private fun setBtn() {
         binding.run {
             buttonZap.setOnClickListener {
                 page = 1
