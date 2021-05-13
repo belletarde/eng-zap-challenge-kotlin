@@ -40,7 +40,7 @@ class AppSharedPreferences(
     override fun getVivaList(page: Int): List<PropertyResponse> {
         val popList = getPropertyObjectString().toPropertyResponse()?.list?.filter { it ->
             FetchBusinessLogic.getVivaLogic(it)
-        }?.sortedBy { it -> it.updatedAt.toDate() } ?: throw Resources.NotFoundException()
+        }?.sortedByDescending { it -> it.updatedAt.toDate() } ?: throw Resources.NotFoundException()
 
         return popList.pagination(page)
     }
@@ -48,7 +48,7 @@ class AppSharedPreferences(
     override fun getZapList(page: Int): List<PropertyResponse> {
         val popList = getPropertyObjectString().toPropertyResponse()?.list?.filter { it ->
             FetchBusinessLogic.getZapLogic(it)
-        }?.sortedBy { it -> it.updatedAt.toDate() } ?: throw Resources.NotFoundException()
+        }?.sortedByDescending { it -> it.updatedAt.toDate() } ?: throw Resources.NotFoundException()
 
         return popList.pagination(page)
     }

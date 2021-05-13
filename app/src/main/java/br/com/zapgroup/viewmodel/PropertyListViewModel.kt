@@ -11,15 +11,6 @@ import kotlinx.coroutines.Dispatchers
 
 class PropertyListViewModel(private val repository: PropertyListRepository): ViewModel() {
 
-    fun getZapPropertyList(page: Int = 1) = liveData(Dispatchers.IO) {
-        emit(Resource.loading(data = null))
-        try {
-            emit(Resource.success(data = repository.getZapList(page)))
-        } catch (exception: Exception) {
-            emit(Resource.error(data = null, message = exception.message ?: "Error Occurred!"))
-        }
-    }
-
     fun getPropertyList(page: Int = 1, type: String) = liveData(Dispatchers.IO) {
         emit(Resource.loading(data = null))
         try {

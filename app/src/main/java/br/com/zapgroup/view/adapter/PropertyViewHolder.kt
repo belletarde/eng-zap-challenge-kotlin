@@ -4,14 +4,9 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import br.com.zapgroup.R
-import br.com.zapgroup.data.FetchBusinessLogic.Companion.RENTAL
 import br.com.zapgroup.databinding.ListItemBinding
 import br.com.zapgroup.model.api.PropertyResponse
-import br.com.zapgroup.utils.setCurrency
-import java.text.DecimalFormat
-import java.text.NumberFormat
-import java.util.*
+import br.com.zapgroup.utils.PropertyDetail.Companion.fillData
 
 class PropertyViewHolder(
     private val itemClick: ItemClick,
@@ -27,23 +22,7 @@ class PropertyViewHolder(
                 }
                 propertyImagePager.adapter = PropertyPageAdapter(propertyResponse, itemBinding.root.context, itemClick)
                 nextPager.addViewPage(propertyImagePager, images.size)
-                propertyAddress.text = root.context.getString(R.string.property_address, address.neighborhood, address.city)
-                propertyArea.text = root.context.getString(R.string.property_area, usableAreas)
-                propertyDetails.addItems(
-                    listOf(
-                        root.context.getString(R.string.property_detail_bedrooms, bedrooms),
-                        root.context.getString(R.string.property_detail_bathrooms, bathrooms),
-                        root.context.getString(R.string.property_detail_parking, parkingSpaces)
-                    )
-                )
-
-                if(pricingInfos.businessType == RENTAL) {
-                    propertyType.text = root.context.getString(R.string.property_rental_title)
-                    propertyPrice.text = pricingInfos.rentalTotalPrice.setCurrency()
-                } else {
-                    propertyType.text = root.context.getString(R.string.property_sell_title)
-                    propertyPrice.text = pricingInfos.price.setCurrency()
-                }
+                fillData(propertyResponse, itemBinding.root.context, propertyAddress, propertyArea, propertyType, propertyPrice, propertyDetails)
             }
         }
     }

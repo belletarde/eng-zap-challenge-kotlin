@@ -10,8 +10,8 @@
     <string name="viva_real">Viva Real</string>
     <string name="zap">Zap</string>
 
-    <string name="property_sell_title">Propriedade para vender</string>
-    <string name="property_rental_title">Propriedade para alugar</string>
+    <string name="property_sell_title">Imóvel para vender</string>
+    <string name="property_rental_title">Imóvel para alugar</string>
 
     <string name="property_address">%1$s, %2$s</string>
     <string name="property_area">%1$sm²</string>
@@ -19,4 +19,16 @@
     <string name="property_detail_bedrooms">Quartos: %1$d</string>
     <string name="property_detail_bathrooms">Banheiros: %1$d</string>
     <string name="property_detail_parking">Vagas: %1$s</string>
+    <string name="title_activity_maps">Map</string>
+
+    <string name="property_sell_title_detail">Casa com %1$d quarto(s) para vender, %2$dm²</string>
+    <string name="property_rental_title_detail">Casa com %1$d quarto(s) para alugar, %2$dm²</string>
+    <string name="property_IPTU_value_detail">R$ %1$d,00</string>
+    <string name="property_total_value_detail">R$ %1$d,00/mês</string>
+    <string name="last_updated_time">Atualizado há %1$d dia(s)</string>
+    <string name="total_value_label">Total:</string>
+    <string name="iptu_value_label">IPTU:</string>
+    <string name="condofee_value_label">Condomínio:</string>
+    <string name="rental_property">Aluguel:</string>
+    <string name="property_value">Valor do imóvel:</string>
 </resources>

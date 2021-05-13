@@ -22,7 +22,7 @@
             android:layout_height="wrap_content">
 
             <androidx.viewpager.widget.ViewPager
-                android:background="@color/white"
+                android:background="@color/gray"
                 android:layout_width="match_parent"
                 android:id="@+id/propertyImagePager"
                 app:layout_constraintTop_toTopOf="parent"

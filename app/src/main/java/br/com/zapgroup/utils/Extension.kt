@@ -47,6 +47,10 @@ fun String?.isNotNumber(): Boolean {
     }
 }
 
+fun String?.isNumber(): Boolean {
+    return !this.isNotNumber()
+}
+
 fun List<PropertyResponse>.pagination(page: Int, limit: Int = 20): List<PropertyResponse> {
     val endIndex = (limit * page)
     val startIndex = (limit * (page - 1))

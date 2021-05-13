@@ -12,7 +12,7 @@ import br.com.zapgroup.utils.loadUrl
 import br.com.zapgroup.view.customView.PropertyPagerCount
 import com.airbnb.lottie.LottieAnimationView
 
-class PropertyPageAdapter(private val propertyResponse: PropertyResponse, private val context: Context, private val itemClick: ItemClick): PagerAdapter() {
+class PropertyPageAdapter(private val propertyResponse: PropertyResponse, private val context: Context, private val itemClick: ItemClick? = null): PagerAdapter() {
     override fun getCount(): Int {
         return propertyResponse.images.size
     }
@@ -32,7 +32,7 @@ class PropertyPageAdapter(private val propertyResponse: PropertyResponse, privat
         val lottieLoad = layout.findViewById<LottieAnimationView>(R.id.loadListImage)
         pagerItemImage.loadUrl(propertyResponse.images[position], lottieLoad)
         layout.setOnClickListener {
-            itemClick.onClickListener(propertyResponse.id)
+            itemClick?.onClickListener(propertyResponse.id)
         }
         container.addView(layout)
         return layout

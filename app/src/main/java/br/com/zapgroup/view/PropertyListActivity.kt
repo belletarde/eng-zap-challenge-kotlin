@@ -38,6 +38,7 @@ class PropertyListActivity : AppCompatActivity(), ItemClick {
             val intent = Intent(appCompatActivity, PropertyListActivity::class.java)
             intent.putExtra(ERROR, error)
             appCompatActivity.startActivity(intent)
+            appCompatActivity.finish()
         }
     }
 
