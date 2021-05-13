@@ -15,8 +15,12 @@
         android:name=".ZapApplication"
         android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/Theme.ZapGroup">
-        <activity android:name=".view.PropertyDetailActivity" />
-        <activity android:name=".view.PropertyListActivity" />
+        <activity android:name=".view.PropertyDetailActivity"
+            android:theme="@style/SplashTheme"
+            android:screenOrientation="fullSensor" />
+        <activity android:name=".view.PropertyListActivity"
+            android:theme="@style/SplashTheme"
+            android:screenOrientation="fullSensor" />
         <activity android:name=".view.SplashActivity"
             android:theme="@style/SplashTheme"
             android:screenOrientation="fullSensor" >

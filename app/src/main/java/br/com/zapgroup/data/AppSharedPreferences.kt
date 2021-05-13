@@ -2,14 +2,11 @@ package br.com.zapgroup.data
 
 import android.content.SharedPreferences
 import android.content.res.Resources
-import android.util.Log
 import br.com.zapgroup.data.SharedValues.Companion.PROPERTY_OBJECT
 import br.com.zapgroup.data.SharedValues.Companion.PROPERTY_STORED
 import br.com.zapgroup.model.api.PropertyResponse
-import br.com.zapgroup.utils.isNotNumber
+import br.com.zapgroup.utils.pagination
 import br.com.zapgroup.utils.toPropertyResponse
-import java.math.BigDecimal
-import kotlin.math.log
 
 class AppSharedPreferences(
     private val sharedPreferences: SharedPreferences,
@@ -35,16 +32,20 @@ class AppSharedPreferences(
         return getPropertyObjectString().toPropertyResponse()?.list?.isNotEmpty() ?: throw Resources.NotFoundException()
     }
 
-    override fun getVivaList(): List<PropertyResponse> {
-        return getPropertyObjectString().toPropertyResponse()?.list?.filter { it ->
+    override fun getVivaList(page: Int): List<PropertyResponse> {
+        val popList = getPropertyObjectString().toPropertyResponse()?.list?.filter { it ->
             FetchBusinessLogic.getVivaLogic(it)
         } ?: throw Resources.NotFoundException()
+
+        return popList.pagination(page)
     }
 
-    override fun getZapList(): List<PropertyResponse> {
-        return getPropertyObjectString().toPropertyResponse()?.list?.filter { it ->
+    override fun getZapList(page: Int): List<PropertyResponse> {
+        val popList = getPropertyObjectString().toPropertyResponse()?.list?.filter { it ->
             FetchBusinessLogic.getZapLogic(it)
         } ?: throw Resources.NotFoundException()
+
+        return popList.pagination(page)
     }
 
     override fun getById(id: String): PropertyResponse {

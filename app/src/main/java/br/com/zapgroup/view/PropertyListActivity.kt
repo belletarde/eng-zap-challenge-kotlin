@@ -2,25 +2,34 @@ package br.com.zapgroup.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import br.com.zapgroup.databinding.ActivityPropertyListBinding
+import br.com.zapgroup.model.api.PropertyResponse
 import br.com.zapgroup.utils.Status
 import br.com.zapgroup.utils.loadSnackBar
 import br.com.zapgroup.view.adapter.ItemClick
 import br.com.zapgroup.view.adapter.PropertyAdapter
 import br.com.zapgroup.viewmodel.PropertyListViewModel
-import com.google.android.material.snackbar.Snackbar
 import org.koin.android.ext.android.bind
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.net.ProtocolException
 
 class PropertyListActivity : AppCompatActivity(), ItemClick {
 
     private lateinit var binding: ActivityPropertyListBinding
     private val viewModel: PropertyListViewModel by viewModel()
     private val propertyAdapter by lazy { PropertyAdapter(this) }
+    private val linearLayoutManager by lazy { LinearLayoutManager(this) }
+    private var page = 1
+    var loading = false
 
     companion object {
         fun open(appCompatActivity: AppCompatActivity) {
@@ -33,47 +42,95 @@ class PropertyListActivity : AppCompatActivity(), ItemClick {
         super.onCreate(savedInstanceState)
         binding = ActivityPropertyListBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        initRecycler()
         binding.run {
-            environmentRecycler.adapter = propertyAdapter
             buttonZap.setOnClickListener {
-                fetchZapList()
+                page = 1
+                fetchZapList(page)
             }
             buttonViva.setOnClickListener {
-                fetchVivaList()
+                page = 1
+                fetchVivaList(page)
             }
         }
     }
 
-    private fun fetchZapList() {
-        viewModel.getZapPropertyList().observe(this, Observer {
+    private fun initRecycler() {
+        binding.run {
+            propertyRecycler.layoutManager = linearLayoutManager
+            propertyRecycler.adapter = propertyAdapter
+            propertyRecycler.addOnScrollListener(scrollListener())
+        }
+    }
+
+    private fun initRecyclerItems(list: List<PropertyResponse>) {
+        binding.run {
+            if(page > 1) {
+                propertyAdapter.loadMore(list)
+            } else {
+                propertyAdapter.setListView(list)
+                binding.propertyRecycler.smoothScrollToPosition(0)
+            }
+        }
+    }
+
+    private fun showErrorView(isListEmpty: Boolean = false) {
+        binding.run {
+            propertyRecycler.visibility = GONE
+            propertyDetailErrorContainer.visibility = VISIBLE
+            if(isListEmpty) {
+                propertyDetailErrorLayout.errorMessageText.text = "Nada para ver aqui, essa lista está vazia"
+                propertyDetailErrorLayout.reloadButton.visibility = GONE
+            } else {
+                propertyDetailErrorLayout.errorMessageText.text = "Ocorreu um erro na busca dos dados"
+                propertyDetailErrorLayout.reloadButton.visibility = VISIBLE
+                propertyDetailErrorLayout.reloadButton.setOnClickListener {
+                    SplashActivity.open(this@PropertyListActivity)
+                }
+            }
+        }
+    }
+
+    private fun fetchZapList(page: Int) {
+        viewModel.getZapPropertyList(page).observe(this, Observer {
             it?.let { resourceData ->
                 when (resourceData.status) {
                     Status.SUCCESS -> {
-                        propertyAdapter.setListView(resourceData.data ?: listOf(), "ZAP")
+                        initRecyclerItems(resourceData.data ?: listOf())
+                        loading = false
                     }
                     Status.ERROR -> {
-                        Toast.makeText(this, "Err", Toast.LENGTH_LONG).show()
+                        loading = false
+                        showErrorView()
                     }
                     Status.LOADING -> {
-                        Toast.makeText(this, "load", Toast.LENGTH_LONG).show()
+                        loading = true
+                        if(page > 1) {
+                            loadSnackBar(PropertyListActivity@this, "Carregando mais opções...")
+                        }
                     }
                 }
             }
         })
     }
 
-    private fun fetchVivaList() {
-        viewModel.getVivaPropertyList().observe(this, Observer {
+    private fun fetchVivaList(page: Int) {
+        viewModel.getVivaPropertyList(page).observe(this, Observer {
             it?.let { resourceData ->
                 when (resourceData.status) {
                     Status.SUCCESS -> {
-                        propertyAdapter.setListView(resourceData.data ?: listOf(), "VIVA")
+                        initRecyclerItems(resourceData.data ?: listOf())
+                        loading = false
                     }
                     Status.ERROR -> {
-                        Toast.makeText(this, "Err", Toast.LENGTH_LONG).show()
+                        loading = false
+                        showErrorView()
                     }
                     Status.LOADING -> {
-                        Toast.makeText(this, "load", Toast.LENGTH_LONG).show()
+                        loading = true
+                        if(page > 1) {
+                            loadSnackBar(PropertyListActivity@this, "Carregando mais opções...")
+                        }
                     }
                 }
             }
@@ -84,5 +141,24 @@ class PropertyListActivity : AppCompatActivity(), ItemClick {
         val i = Intent(this, PropertyDetailActivity::class.java)
         i.putExtra("EXTRA_ID", id)
         startActivity(i)
+    }
+
+    private fun scrollListener(): OnScrollListener {
+        return object: OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (dy > 0) { //check for scroll down
+                    val visibleItemCount = linearLayoutManager.childCount
+                    val totalItemCount = linearLayoutManager.itemCount
+                    val pastVisibleItems = linearLayoutManager.findFirstVisibleItemPosition()
+
+                    if (!loading) {
+                        if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
+                            fetchVivaList(++page)
+                            loading = true
+                        }
+                    }
+                }
+            }
+        }
     }
 }

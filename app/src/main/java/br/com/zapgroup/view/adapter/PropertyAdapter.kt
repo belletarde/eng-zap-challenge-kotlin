@@ -21,8 +21,13 @@ class PropertyAdapter(private val itemClick: ItemClick):
         }
     }
 
-    fun setListView(propertyResponseList: List<PropertyResponse>, type: String) {
+    fun setListView(propertyResponseList: List<PropertyResponse>) {
         this.propertyResponseList.clear()
+        this.propertyResponseList.addAll(propertyResponseList)
+        notifyDataSetChanged()
+    }
+
+    fun loadMore(propertyResponseList: List<PropertyResponse>) {
         this.propertyResponseList.addAll(propertyResponseList)
         notifyDataSetChanged()
     }

@@ -7,12 +7,12 @@ import br.com.zapgroup.repository.PropertyListRepository
 
 class PropertyListApi(private val shared: AppSharedPreferences) : PropertyListRepository {
 
-    override fun getVivaList(): List<PropertyResponse> {
-        return shared.getVivaList()
+    override fun getVivaList(page: Int): List<PropertyResponse> {
+        return shared.getVivaList(page)
     }
 
-    override fun getZapList(): List<PropertyResponse> {
-        return shared.getZapList()
+    override fun getZapList(page: Int): List<PropertyResponse> {
+        return shared.getZapList(page)
     }
 
 }

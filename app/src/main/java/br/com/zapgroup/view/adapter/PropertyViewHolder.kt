@@ -19,9 +19,21 @@ class PropertyViewHolder(
     @SuppressLint("ResourceAsColor")
     fun bind(propertyResponse: PropertyResponse){
         with(propertyResponse) {
-            itemBinding.propertyImage.loadUrl(propertyResponse.images[0])
-            itemBinding.root.setOnClickListener {
-                itemClick.onClickListener(id)
+            with(itemBinding) {
+                root.setOnClickListener {
+                    itemClick.onClickListener(id)
+                }
+                propertyImage.loadUrl(images[0], loadImage)
+                propertyAddress.text = "${address.neighborhood}, ${address.city}"
+                propertyDetail.text = "Quartos: $bedrooms, Banheiros: $bathrooms, Vagas: $parkingSpaces"
+                propertyArea.text = "${usableAreas.toString()} m²"
+                if(pricingInfos.businessType == "RENTAL") {
+                    propertyType.text = "Propriedade para alugar"
+                    propertyPrice.text = "R$ ${pricingInfos.rentalTotalPrice},00"
+                } else {
+                    propertyType.text = "Propriedade para vender"
+                    propertyPrice.text = "R$ ${pricingInfos.price},00"
+                }
             }
         }
     }
