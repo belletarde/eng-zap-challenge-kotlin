@@ -7,6 +7,7 @@ import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import br.com.zapgroup.R
 import br.com.zapgroup.databinding.ActivityMainBinding
 import br.com.zapgroup.utils.Connectivity.Companion.isConnected
 import br.com.zapgroup.utils.Status
@@ -47,7 +48,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun showReloadView() {
-        loadSnackBar(this, "Erro tente novamente")
+        loadSnackBar(this, getString(R.string.error_try_again))
         binding.run {
             tryAgainLoad.visibility = INVISIBLE
             tryAgainText.visibility = VISIBLE

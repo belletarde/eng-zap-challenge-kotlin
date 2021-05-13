@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">Grupo Zap</string>
+    <string name="try_again">Tente Novamente</string>
+    <string name="error_try_again">Erro tente novamente</string>
+
+    <string name="load_more">Carregando mais opções...</string>
+    <string name="emptyList">Nada para ver aqui, essa lista está vazia</string>
+    <string name="load_data_error">Ocorreu um erro ao buscar os dados</string>
+    <string name="error_update_list">Erro ao tentar atualizar lista</string>
+    <string name="viva_real">Viva Real</string>
+    <string name="zap">Zap</string>
+
+    <string name="property_sell_title">Propriedade para vender</string>
+    <string name="property_rental_title">Propriedade para alugar</string>
+
+    <string name="property_address">%1$s, %2$s</string>
+    <string name="property_area">%1$sm²</string>
+
+    <string name="property_detail_bedrooms">Quartos: %1$d</string>
+    <string name="property_detail_bathrooms">Banheiros: %1$d</string>
+    <string name="property_detail_parking">Vagas: %1$s</string>
 </resources>

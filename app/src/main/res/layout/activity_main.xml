@@ -19,12 +19,8 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="@string/app_name"
-        android:textColor="@android:color/holo_green_light"
-        android:gravity="center"
-        android:textSize="28sp"
+        style="@style/AppNameText"
         android:id="@+id/appNameText"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -42,13 +38,9 @@
         app:layout_constraintTop_toBottomOf="@id/appNameText">
 
         <TextView
-            android:text="Tente Novamente"
-            android:textColor="@color/white"
-            android:textStyle="bold"
             android:id="@+id/tryAgainText"
-            android:textSize="12sp"
-            android:gravity="center"
-            android:src="@drawable/refresh_ic"
+            style="@style/TryAgainButtonText"
+            android:text="@string/try_again"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />

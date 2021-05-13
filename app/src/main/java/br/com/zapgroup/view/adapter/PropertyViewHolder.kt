@@ -1,19 +1,24 @@
 package br.com.zapgroup.view.adapter
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import br.com.zapgroup.R
+import br.com.zapgroup.data.FetchBusinessLogic.Companion.RENTAL
 import br.com.zapgroup.databinding.ListItemBinding
 import br.com.zapgroup.model.api.PropertyResponse
+import br.com.zapgroup.utils.setCurrency
+import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.util.*
 
 class PropertyViewHolder(
     private val itemClick: ItemClick,
     private val itemBinding: ListItemBinding
 ) : RecyclerView.ViewHolder(itemBinding.root){
 
-    @SuppressLint("ResourceAsColor")
+    @SuppressLint("ResourceAsColor", "StringFormatMatches")
     fun bind(propertyResponse: PropertyResponse){
         with(propertyResponse) {
             with(itemBinding) {
@@ -21,15 +26,23 @@ class PropertyViewHolder(
                     itemClick.onClickListener(id)
                 }
                 propertyImagePager.adapter = PropertyPageAdapter(propertyResponse, itemBinding.root.context, itemClick)
-                propertyAddress.text = "${address.neighborhood}, ${address.city}"
-                propertyDetail.text = "Quartos: $bedrooms, Banheiros: $bathrooms, Vagas: $parkingSpaces"
-                propertyArea.text = "${usableAreas.toString()} m²"
-                if(pricingInfos.businessType == "RENTAL") {
-                    propertyType.text = "Propriedade para alugar"
-                    propertyPrice.text = "R$ ${pricingInfos.rentalTotalPrice},00"
+                nextPager.addViewPage(propertyImagePager, images.size)
+                propertyAddress.text = root.context.getString(R.string.property_address, address.neighborhood, address.city)
+                propertyArea.text = root.context.getString(R.string.property_area, usableAreas)
+                propertyDetails.addItems(
+                    listOf(
+                        root.context.getString(R.string.property_detail_bedrooms, bedrooms),
+                        root.context.getString(R.string.property_detail_bathrooms, bathrooms),
+                        root.context.getString(R.string.property_detail_parking, parkingSpaces)
+                    )
+                )
+
+                if(pricingInfos.businessType == RENTAL) {
+                    propertyType.text = root.context.getString(R.string.property_rental_title)
+                    propertyPrice.text = pricingInfos.rentalTotalPrice.setCurrency()
                 } else {
-                    propertyType.text = "Propriedade para vender"
-                    propertyPrice.text = "R$ ${pricingInfos.price},00"
+                    propertyType.text = root.context.getString(R.string.property_sell_title)
+                    propertyPrice.text = pricingInfos.price.setCurrency()
                 }
             }
         }

@@ -6,15 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".view.PropertyListActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/propertyRecycler"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonLayout"
-        tools:listitem="@layout/list_item" />
-
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/buttonLayout"
         app:layout_constraintTop_toTopOf="parent"
@@ -26,31 +17,36 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:padding="12dp"
+        <br.com.zapgroup.view.customView.TabButton
+            style="@style/ButtonTitleTextWhite"
+
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/buttonZap"
             android:layout_margin="8dp"
             android:background="@drawable/seleceted_list_tab_bg"
-            android:text="Zap"/>
+            android:text="@string/zap"/>
 
-        <TextView
-            android:gravity="center"
-            android:padding="12dp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
+        <br.com.zapgroup.view.customView.TabButton
+            style="@style/ButtonTitleTextWhite"
             android:id="@+id/buttonViva"
             android:layout_weight="1"
             android:layout_margin="8dp"
+            android:background="@drawable/default_list_tab_bg"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="ViVA"/>
+            android:text="@string/viva_real"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/propertyRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonLayout"
+        tools:listitem="@layout/list_item" />
 
     <FrameLayout
         app:layout_constraintBottom_toBottomOf="parent"

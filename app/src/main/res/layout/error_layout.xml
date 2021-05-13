@@ -36,7 +36,6 @@
             android:id="@+id/tryAgainText"
             android:textSize="18sp"
             android:gravity="center"
-            android:src="@drawable/refresh_ic"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />

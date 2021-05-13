@@ -23,6 +23,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.util.*
@@ -56,20 +57,30 @@ fun List<PropertyResponse>.pagination(page: Int, limit: Int = 20): List<Property
     return this.subList(startIndex, endIndex)
 }
 
+@SuppressLint("SimpleDateFormat")
 fun String.toDate(): Date {
     return SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(this)
 }
 
-fun ImageView.loadUrl(url: String?, loader: LottieAnimationView? = null, rounded: Float = 8f) {
+fun String.setCurrency(): String {
+    try {
+        val number = this.toDouble()
+        val country = "BR"
+        val language = "pt"
+        return NumberFormat.getCurrencyInstance(Locale(language, country)).format(number)
+    } catch (exception: Exception) {
+        return this
+    }
+
+}
+
+fun ImageView.loadUrl(url: String?, loader: LottieAnimationView? = null) {
     val glide = when (context) {
         is Activity -> Glide.with(context as Activity)
         else -> Glide.with(context)
     }
 
-
-    val requestOptions = RequestOptions().transforms(CenterCrop(), GranularRoundedCorners(rounded, rounded, 0f, 0f))
-
-    glide.load(url).apply(requestOptions).listener(object: RequestListener<Drawable> {
+    glide.load(url).centerCrop().listener(object: RequestListener<Drawable> {
         override fun onLoadFailed(
             e: GlideException?,
             model: Any?,

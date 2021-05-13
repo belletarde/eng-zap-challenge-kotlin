@@ -9,6 +9,8 @@ import androidx.viewpager.widget.PagerAdapter
 import br.com.zapgroup.R
 import br.com.zapgroup.model.api.PropertyResponse
 import br.com.zapgroup.utils.loadUrl
+import br.com.zapgroup.view.customView.PropertyPagerCount
+import com.airbnb.lottie.LottieAnimationView
 
 class PropertyPageAdapter(private val propertyResponse: PropertyResponse, private val context: Context, private val itemClick: ItemClick): PagerAdapter() {
     override fun getCount(): Int {
@@ -27,7 +29,8 @@ class PropertyPageAdapter(private val propertyResponse: PropertyResponse, privat
         val inflater = LayoutInflater.from(context)
         val layout = inflater.inflate(R.layout.item_pager, container, false) as ViewGroup
         val pagerItemImage = layout.findViewById<ImageView>(R.id.pagerItemImage)
-        pagerItemImage.loadUrl(propertyResponse.images[position])
+        val lottieLoad = layout.findViewById<LottieAnimationView>(R.id.loadListImage)
+        pagerItemImage.loadUrl(propertyResponse.images[position], lottieLoad)
         layout.setOnClickListener {
             itemClick.onClickListener(propertyResponse.id)
         }

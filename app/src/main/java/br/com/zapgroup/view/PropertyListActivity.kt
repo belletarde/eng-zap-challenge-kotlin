@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import br.com.zapgroup.R
+import br.com.zapgroup.data.FetchBusinessLogic.Companion.VIVA
+import br.com.zapgroup.data.FetchBusinessLogic.Companion.ZAP
 import br.com.zapgroup.databinding.ActivityPropertyListBinding
 import br.com.zapgroup.model.api.PropertyResponse
 import br.com.zapgroup.utils.Status
@@ -28,6 +30,7 @@ class PropertyListActivity : AppCompatActivity(), ItemClick {
     private val linearLayoutManager by lazy { LinearLayoutManager(this) }
     private var page = 1
     private var loading = false
+    private var type = ZAP
 
     companion object {
         private const val ERROR = "error"
@@ -44,30 +47,32 @@ class PropertyListActivity : AppCompatActivity(), ItemClick {
         binding = ActivityPropertyListBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initRecycler()
-        fetchZapList(page)
+        fetchPropertyList(page)
         verifyExtra()
         setBtn()
     }
 
     private fun verifyExtra() {
         if(intent.getBooleanExtra(ERROR, false)) {
-            loadSnackBar(this, "Erro ao tentar atualizar lista")
+            loadSnackBar(this, getString(R.string.error_update_list))
         }
     }
 
     private fun setBtn() {
         binding.run {
             buttonZap.setOnClickListener {
+                type = ZAP
                 page = 1
-                fetchZapList(page)
-                buttonViva.setBackgroundDrawable(resources.getDrawable(R.drawable.default_list_tab_bg));
-                it.setBackgroundDrawable(resources.getDrawable(R.drawable.seleceted_list_tab_bg));
+                fetchPropertyList(page)
+                buttonViva.setBtnNotClicked()
+                buttonZap.setBtnClicked()
             }
             buttonViva.setOnClickListener {
+                type = VIVA
                 page = 1
-                fetchVivaList(page)
-                buttonZap.setBackgroundDrawable(resources.getDrawable(R.drawable.default_list_tab_bg));
-                it.setBackgroundDrawable(resources.getDrawable(R.drawable.seleceted_list_tab_bg));
+                fetchPropertyList(page)
+                buttonZap.setBtnNotClicked()
+                buttonViva.setBtnClicked()
             }
         }
     }
@@ -96,10 +101,10 @@ class PropertyListActivity : AppCompatActivity(), ItemClick {
             propertyRecycler.visibility = GONE
             propertyDetailErrorContainer.visibility = VISIBLE
             if(isListEmpty) {
-                propertyDetailErrorLayout.errorMessageText.text = "Nada para ver aqui, essa lista está vazia"
+                propertyDetailErrorLayout.errorMessageText.text = getString(R.string.emptyList)
                 propertyDetailErrorLayout.reloadButton.visibility = GONE
             } else {
-                propertyDetailErrorLayout.errorMessageText.text = "Ocorreu um erro na busca dos dados"
+                propertyDetailErrorLayout.errorMessageText.text = getString(R.string.load_data_error)
                 propertyDetailErrorLayout.reloadButton.visibility = VISIBLE
                 propertyDetailErrorLayout.reloadButton.setOnClickListener {
                     SplashActivity.open(this@PropertyListActivity)
@@ -108,8 +113,8 @@ class PropertyListActivity : AppCompatActivity(), ItemClick {
         }
     }
 
-    private fun fetchZapList(page: Int) {
-        viewModel.getZapPropertyList(page).observe(this, Observer {
+    private fun fetchPropertyList(page: Int) {
+        viewModel.getPropertyList(page, type).observe(this, Observer {
             it?.let { resourceData ->
                 when (resourceData.status) {
                     Status.SUCCESS -> {
@@ -123,30 +128,7 @@ class PropertyListActivity : AppCompatActivity(), ItemClick {
                     Status.LOADING -> {
                         loading = true
                         if(page > 1) {
-                            loadSnackBar(PropertyListActivity@this, "Carregando mais opções...")
-                        }
-                    }
-                }
-            }
-        })
-    }
-
-    private fun fetchVivaList(page: Int) {
-        viewModel.getVivaPropertyList(page).observe(this, Observer {
-            it?.let { resourceData ->
-                when (resourceData.status) {
-                    Status.SUCCESS -> {
-                        initRecyclerItems(resourceData.data ?: listOf())
-                        loading = false
-                    }
-                    Status.ERROR -> {
-                        loading = false
-                        showErrorView()
-                    }
-                    Status.LOADING -> {
-                        loading = true
-                        if(page > 1) {
-                            loadSnackBar(PropertyListActivity@this, "Carregando mais opções...")
+                            loadSnackBar(PropertyListActivity@this, getString(R.string.load_more))
                         }
                     }
                 }
@@ -163,14 +145,14 @@ class PropertyListActivity : AppCompatActivity(), ItemClick {
     private fun scrollListener(): OnScrollListener {
         return object: OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if (dy > 0) { //check for scroll down
+                if (dy > 0) {
                     val visibleItemCount = linearLayoutManager.childCount
                     val totalItemCount = linearLayoutManager.itemCount
                     val pastVisibleItems = linearLayoutManager.findFirstVisibleItemPosition()
 
                     if (!loading) {
                         if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
-                            fetchVivaList(++page)
+                            fetchPropertyList(++page)
                             loading = true
                         }
                     }

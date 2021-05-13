@@ -8,10 +8,10 @@ import java.math.RoundingMode
 
 class FetchBusinessLogic {
     companion object {
-        private const val RENTAL = "RENTAL"
+        const val RENTAL = "RENTAL"
         private const val SALE = "SALE"
-        private const val VIVA = "VIVA"
-        private const val ZAP = "ZAP"
+        const val VIVA = "VIVA"
+        const val ZAP = "ZAP"
 
         private const val minlon = -46.693419
         private const val minlat = -23.568704

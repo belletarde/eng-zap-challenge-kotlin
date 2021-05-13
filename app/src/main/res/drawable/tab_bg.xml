@@ -1,5 +1,0 @@
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true"
-        android:drawable="@drawable/seleceted_list_tab_bg" /> <!-- pressed -->
-    <item android:drawable="@drawable/default_list_tab_bg" /> <!-- default -->
-</selector>
