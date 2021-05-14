@@ -3,43 +3,35 @@ package br.com.zapgroup.view.adapter
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import br.com.zapgroup.databinding.DetailPillItemBinding
 
-class PropertyPillAdapter:
-    ListAdapter<String, PropertyPillsViewHolder>(
-        DIFF_CALLBACK
-    ){
-    companion object{
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<String>(){
-            override fun areItemsTheSame(
-                oldItem: String,
-                newItem: String
-            ): Boolean {
-                return oldItem == newItem
-            }
+class PropertyPillAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+    private var list: MutableList<String> = ArrayList()
 
-            @SuppressLint("DiffUtilEquals")
-            override fun areContentsTheSame(
-                oldItem: String,
-                newItem: String
-            ): Boolean {
-                return oldItem ==  newItem
-            }
 
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if(holder is PropertyPillsViewHolder) {
+            holder.bind(getItem(position))
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PropertyPillsViewHolder {
-        return PropertyPillsViewHolder.create(
-            parent
-        )
+    fun setListView(detailList: List<String>) {
+        list.clear()
+        list.addAll(detailList)
+        notifyDataSetChanged()
     }
 
-    override fun onBindViewHolder(holder: PropertyPillsViewHolder, position: Int) {
-        holder.bind(getItem(position))
+    private fun getItem(position: Int): String {
+        return list[position]
+    }
+
+    override fun getItemCount(): Int {
+        return list.size
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return PropertyPillsViewHolder.create(parent)
     }
 }
 
