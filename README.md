@@ -7,7 +7,7 @@ onde consiste em duas listas de imóveis há venda ou aluguel. Os dados são car
 uso de qualquer tipo de banco de dados.
 
 ## Aplicação
-A aplicação reformulada consiste em uma splashscreen, onde é carregado os dados e mantidos em meória, em uma tela que possui duas listas,
+A aplicação reformulada consiste em uma splashscreen, onde é carregado os dados e mantidos em memória, em uma tela que possui duas listas,
 uma para imóveis válidos para ZAP e a Viva Real, e uma tela de detalhes do imóvel.
 
 ## Tecnologias e padrões
