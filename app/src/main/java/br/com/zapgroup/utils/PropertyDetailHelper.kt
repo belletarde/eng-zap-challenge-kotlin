@@ -8,7 +8,7 @@ import br.com.zapgroup.data.FetchBusinessLogic
 import br.com.zapgroup.model.api.PropertyResponse
 import br.com.zapgroup.view.customView.PropertyPillView
 
-class PropertyDetail {
+class PropertyDetailHelper {
 
     companion object {
         @SuppressLint("StringFormatMatches")
@@ -32,10 +32,10 @@ class PropertyDetail {
                 )
 
                 if(pricingInfos.businessType == FetchBusinessLogic.RENTAL) {
-                    propertyType.text = context.getString(R.string.property_rental_title)
-                    propertyPrice?.text = pricingInfos.rentalTotalPrice.setCurrency()
+                    propertyType.text = context.getString(R.string.property_rental_title_detail, bedrooms, usableAreas)
+                    propertyPrice?.text = context.getString(R.string.property_total_rental_value_detail, pricingInfos.rentalTotalPrice.setCurrency())
                 } else {
-                    propertyType.text = context.getString(R.string.property_sell_title)
+                    propertyType.text = context.getString(R.string.property_sell_title_detail, bedrooms, usableAreas)
                     propertyPrice?.text = pricingInfos.price.setCurrency()
                 }
             }

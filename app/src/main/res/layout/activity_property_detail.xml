@@ -193,6 +193,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/totalLayout"
                 android:weightSum="2"
                 android:orientation="horizontal"
                 android:layout_marginTop="18dp"

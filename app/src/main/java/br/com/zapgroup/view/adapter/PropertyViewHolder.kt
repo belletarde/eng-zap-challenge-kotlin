@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import br.com.zapgroup.databinding.ListItemBinding
 import br.com.zapgroup.model.api.PropertyResponse
-import br.com.zapgroup.utils.PropertyDetail.Companion.fillData
+import br.com.zapgroup.utils.PropertyDetailHelper.Companion.fillData
 
 class PropertyViewHolder(
     private val itemClick: ItemClick,

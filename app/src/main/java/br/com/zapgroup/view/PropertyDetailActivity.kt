@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.MotionEvent
+import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -27,10 +28,12 @@ import kotlin.math.roundToInt
 
 
 class PropertyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
+
     private lateinit var binding: ActivityPropertyDetailBinding
     private val viewModel: PropertyDetailViewModel by viewModel()
     private var lat = 0.0
     private var lon = 0.0
+    var total = 0
 
     companion object {
         private const val EXTRA_ID = "extra_id"
@@ -76,49 +79,74 @@ class PropertyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun loadDetail(data: PropertyResponse) {
         binding.run {
             setGoogleMap(data.address.geoLocation.location.lat, data.address.geoLocation.location.lon)
+            mapHomeButton.setOnClickListener { setGoogleMap(data.address.geoLocation.location.lat, data.address.geoLocation.location.lon) }
+            scrollableLayout.requestDisallowInterceptTouchEvent(true)
+
             propertyImagePagerDetail.adapter = PropertyPageAdapter(data, this@PropertyDetailActivity)
             nextPagerDetail.addViewPage(propertyImagePagerDetail, data.images.size)
-            scrollableLayout.requestDisallowInterceptTouchEvent(true)
-            mapHomeButton.setOnClickListener { setGoogleMap(data.address.geoLocation.location.lat, data.address.geoLocation.location.lon) }
-            PropertyDetail.fillData(
+
+            if(data.pricingInfos.businessType == RENTAL) {
+                setRentalValues(data)
+            } else {
+                setSellValues()
+            }
+            showIPTU(data.pricingInfos.yearlyIptu)
+            showMonthlyCondoFee(data.pricingInfos.monthlyCondoFee)
+            showLastChangeTime(data.updatedAt)
+
+            PropertyDetailHelper.fillData(
                 data,
                 this@PropertyDetailActivity,
                 propertyAddressDetail,
                 null,
-                screenTitle,
-                null,
+                propertyTitle,
+                propertyPriceDetail,
                 propertyDetailsDetail
             )
+        }
+    }
 
-            var total = 0
-            if(data.pricingInfos.monthlyCondoFee.isNumber()) {
+    private fun showLastChangeTime(updatedAt: String) {
+        val diff = Date().time - updatedAt.toDate().time
+        binding.lastUpdateDate.text = getString(R.string.last_updated_time, TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS))
+    }
+
+    private fun setSellValues() {
+        with(binding) {
+            propertyValueLabel.text = getString(R.string.property_value)
+            propertyTitle.text = getString(R.string.property_sell_title)
+            totalLayout.visibility = GONE
+        }
+    }
+
+    private fun setRentalValues(data: PropertyResponse) {
+        with(binding) {
+            propertyValueLabel.text = getString(R.string.rental_property)
+            total += data.pricingInfos.rentalTotalPrice.toInt()
+            propertyTitle.text = getString(R.string.property_rental_title)
+            propertyTotalValueDetail.text = getString(R.string.property_total_rental_value_detail, total.setCurrency())
+        }
+
+    }
+
+    private fun showMonthlyCondoFee(monthlyCondoFee: String) {
+        with(binding) {
+            if(monthlyCondoFee.isNumber()) {
                 condofeeLayout.visibility = VISIBLE
-                propertyCondofee.text = data.pricingInfos.monthlyCondoFee.setCurrency()
-                total += data.pricingInfos.monthlyCondoFee.toInt()
+                propertyCondofee.text = getString(R.string.property_total_rental_value_detail, monthlyCondoFee.setCurrency())
+                total += monthlyCondoFee.toInt()
             }
+        }
+    }
 
-            if(data.pricingInfos.yearlyIptu.isNumber()) {
+    private fun showIPTU(yearlyIptu: String) {
+        with(binding) {
+            if(yearlyIptu.isNumber()) {
                 iptuLayout.visibility = VISIBLE
-                val iptuMonthly = (data.pricingInfos.yearlyIptu.toDouble() / 12).roundToInt()
+                val iptuMonthly = (yearlyIptu.toDouble() / 12).roundToInt()
                 propertyIptuDetail.text = getString(R.string.property_IPTU_value_detail, iptuMonthly)
                 total += iptuMonthly
             }
-
-            if(data.pricingInfos.businessType == RENTAL) {
-                propertyValueLabel.text = getString(R.string.rental_property)
-                propertyTitle.text = getString(R.string.property_rental_title_detail, data.bedrooms, data.usableAreas)
-                propertyPriceDetail.text = data.pricingInfos.rentalTotalPrice.setCurrency()
-                total += data.pricingInfos.rentalTotalPrice.toInt()
-            } else {
-                propertyValueLabel.text = getString(R.string.property_value)
-                propertyTitle.text = getString(R.string.property_sell_title_detail, data.bedrooms, data.usableAreas)
-                propertyPriceDetail.text = data.pricingInfos.price.setCurrency()
-                total += data.pricingInfos.price.toInt()
-            }
-
-            propertyTotalValueDetail.text = getString(R.string.property_total_value_detail, total)
-            val diff = Date().time - data.updatedAt.toDate().time
-            lastUpdateDate.text = getString(R.string.last_updated_time, TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS))
         }
     }
 

@@ -78,6 +78,18 @@ fun String.setCurrency(): String {
 
 }
 
+fun Int.setCurrency(): String {
+    try {
+        val number = this.toDouble()
+        val country = "BR"
+        val language = "pt"
+        return NumberFormat.getCurrencyInstance(Locale(language, country)).format(number)
+    } catch (exception: Exception) {
+        return this.toString()
+    }
+
+}
+
 fun ImageView.loadUrl(url: String?, loader: LottieAnimationView? = null) {
     val glide = when (context) {
         is Activity -> Glide.with(context as Activity)
