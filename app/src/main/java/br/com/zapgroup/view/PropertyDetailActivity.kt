@@ -98,7 +98,6 @@ class PropertyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                 data,
                 this@PropertyDetailActivity,
                 propertyAddressDetail,
-                null,
                 propertyTitle,
                 propertyPriceDetail,
                 propertyDetailsDetail

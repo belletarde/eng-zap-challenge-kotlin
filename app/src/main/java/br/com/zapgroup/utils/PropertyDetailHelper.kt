@@ -15,14 +15,12 @@ class PropertyDetailHelper {
         fun fillData(
             propertyResponse: PropertyResponse, context: Context,
             propertyAddress: TextView,
-            propertyArea: TextView?,
             propertyType: TextView,
             propertyPrice: TextView?,
             propertyDetails: PropertyPillView) {
             with(propertyResponse,
             ) {
                 propertyAddress.text = context.getString(R.string.property_address, address.neighborhood, address.city)
-                propertyArea?.text = context.getString(R.string.property_area, usableAreas)
                 propertyDetails.addItems(
                     listOf(
                         context.getString(R.string.property_detail_bedrooms, bedrooms),

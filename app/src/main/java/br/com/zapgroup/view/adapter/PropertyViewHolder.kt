@@ -22,7 +22,7 @@ class PropertyViewHolder(
                 }
                 propertyImagePager.adapter = PropertyPageAdapter(propertyResponse, itemBinding.root.context, itemClick)
                 nextPager.addViewPage(propertyImagePager, images.size)
-                fillData(propertyResponse, itemBinding.root.context, propertyAddress, propertyArea, propertyType, propertyPrice, propertyDetails)
+                fillData(propertyResponse, itemBinding.root.context, propertyAddress, propertyType, propertyPrice, propertyDetails)
             }
         }
     }
