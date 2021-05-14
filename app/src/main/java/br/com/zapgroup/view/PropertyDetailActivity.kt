@@ -91,6 +91,7 @@ class PropertyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             if(data.pricingInfos.businessType == RENTAL) {
                 setRentalValues(data)
             } else {
+                propertyPriceDetail?.text = data.pricingInfos.price.setCurrency()
                 setSellValues()
             }
             PropertyDetailHelper.fillData(
