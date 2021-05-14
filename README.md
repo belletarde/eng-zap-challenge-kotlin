@@ -10,15 +10,19 @@ uso de qualquer tipo de banco de dados.
 A aplicação reformulada consiste em uma splashscreen, onde é carregado os dados e mantidos em memória, em uma tela que possui duas listas,
 uma para imóveis válidos para ZAP e a Viva Real, e uma tela de detalhes do imóvel.
 
-## Tecnologias e padrões
-No desenvolvimento desse app foram usados algumas tecnologias, sempre prezando por ferramentas novas e consolidadas.
- - Padrão de projeto: MVVM
+## Bibliotecas e padrões
+No desenvolvimento desse app foram usados algumas bibliotecas, sempre prezando por ferramentas novas e consolidadas.
+
+#### Bibliotecas
  - [Retrofit](https://github.com/square/retrofit)
  - [Okhttp](https://github.com/square/okhttp)
  - [Koin](https://github.com/InsertKoinIO/koin)
  - [Glide](https://github.com/bumptech/glide)
  - [Lottie](https://github.com/airbnb/lottie-android)
- - [Google maps](https://developers.google.com/android/reference/com/google/android/gms/maps/MapFragment)
+ - [Google maps](https://developers.google.com/android/reference/com/google/android/gms/maps/MapFragment) 
+
+#### Padrão de projeto
+  - MVVM
 
 ## Instalação
 Clone este repositório e importe no **Android Studio**
