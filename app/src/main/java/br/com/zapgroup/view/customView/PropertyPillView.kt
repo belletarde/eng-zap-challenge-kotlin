@@ -25,6 +25,6 @@ class PropertyPillView: FrameLayout {
 
     fun addItems(details: List<String>) {
         binding.pillRecycler.adapter = propertyPillAdapter
-        propertyPillAdapter.submitList(details)
+        propertyPillAdapter.setListView(details)
     }
 }
