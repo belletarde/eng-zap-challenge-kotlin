@@ -29,6 +29,10 @@ Clone este repositório e importe no **Android Studio**
 ```bash
 git clone git@github.com:belletarde/eng-zap-challenge-kotlin.git
 ```
+Adicione um arquivo local.properties dentro de eng-zap-challenge-kotlin com o caminho de seu SDK
+```bash
+sdk.dir={path_to_sdk}
+```
 ## Desenvolvedor
 O projeto foi feito por:
 [Kevin Marcelo Belletarde](https://www.linkedin.com/in/kevin-marcelo-belletarde-815642b9/)
