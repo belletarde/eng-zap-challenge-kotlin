@@ -22,7 +22,7 @@ No desenvolvimento desse app foram usados algumas bibliotecas, sempre prezando p
  - [Google maps](https://developers.google.com/android/reference/com/google/android/gms/maps/MapFragment) 
 
 #### Padrão de projeto
-  - MVVM
+  - MVVM com repository
 
 ## Instalação
 Clone este repositório e importe no **Android Studio**
