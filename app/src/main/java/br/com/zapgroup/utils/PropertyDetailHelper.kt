@@ -2,6 +2,7 @@ package br.com.zapgroup.utils
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.view.View.GONE
 import android.widget.TextView
 import br.com.zapgroup.R
 import br.com.zapgroup.data.FetchBusinessLogic
@@ -20,7 +21,11 @@ class PropertyDetailHelper {
             propertyDetails: PropertyPillView) {
             with(propertyResponse,
             ) {
-                propertyAddress.text = context.getString(R.string.property_address, address.neighborhood, address.city)
+                if(address.neighborhood.isNotEmpty() && address.city.isNotEmpty()) {
+                    propertyAddress.text = context.getString(R.string.property_address, address.neighborhood, address.city)
+                } else {
+                    propertyAddress.visibility = GONE
+                }
                 propertyDetails.addItems(
                     listOf(
                         context.getString(R.string.property_detail_bedrooms, bedrooms),
