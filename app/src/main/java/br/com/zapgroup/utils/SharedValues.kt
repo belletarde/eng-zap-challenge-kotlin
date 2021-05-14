@@ -1,4 +1,4 @@
-package br.com.zapgroup.data
+package br.com.zapgroup.utils
 
 class SharedValues {
     companion object {

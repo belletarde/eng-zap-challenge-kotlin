@@ -31,4 +31,6 @@
     <string name="condofee_value_label">Condomínio:</string>
     <string name="rental_property">Aluguel:</string>
     <string name="property_value">Valor do imóvel:</string>
+
+    <string name="marker_title">Seu próximo lar</string>
 </resources>

@@ -9,7 +9,6 @@ import androidx.viewpager.widget.ViewPager
 import br.com.zapgroup.R
 import br.com.zapgroup.databinding.PagerMapLayoutBinding
 import br.com.zapgroup.view.adapter.PagerCountAdapter
-import java.util.*
 import kotlin.collections.ArrayList
 
 class PropertyPagerCount: FrameLayout {

@@ -8,7 +8,7 @@ import br.com.zapgroup.api.PropertyDetailApi
 import br.com.zapgroup.api.PropertyListApi
 import br.com.zapgroup.api.SplashApi
 import br.com.zapgroup.data.AppSharedPreferences
-import br.com.zapgroup.data.SharedValues.Companion.SHARED_NAME
+import br.com.zapgroup.utils.SharedValues.Companion.SHARED_NAME
 import br.com.zapgroup.repository.PropertyDetailRepository
 import br.com.zapgroup.repository.PropertyListRepository
 import br.com.zapgroup.repository.SplashRepository

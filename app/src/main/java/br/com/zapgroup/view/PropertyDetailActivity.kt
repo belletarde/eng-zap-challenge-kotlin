@@ -4,10 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.MotionEvent
-import android.view.View.GONE
-import android.view.View.VISIBLE
+import android.view.View.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
+import androidx.core.view.isInvisible
 import br.com.zapgroup.R
 import br.com.zapgroup.data.FetchBusinessLogic.Companion.RENTAL
 import br.com.zapgroup.databinding.ActivityPropertyDetailBinding
@@ -34,8 +33,9 @@ class PropertyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private var lat = 0.0
     private var lon = 0.0
     var total = 0
-
+    private lateinit var mapFragment: SupportMapFragment
     companion object {
+        private val MAP_ZOOM = 16f
         private const val EXTRA_ID = "extra_id"
         fun open(appCompatActivity: AppCompatActivity, id: String) {
             val intent = Intent(appCompatActivity, PropertyDetailActivity::class.java)
@@ -61,7 +61,7 @@ class PropertyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun getById() {
         val id = intent.getStringExtra(EXTRA_ID) ?: ""
 
-        viewModel.getById(id).observe(this, Observer {
+        viewModel.getById(id).observe(this, {
             it?.let { resourceData ->
                 when (resourceData.status) {
                     Status.SUCCESS -> {
@@ -79,7 +79,6 @@ class PropertyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun loadDetail(data: PropertyResponse) {
         binding.run {
             setGoogleMap(data.address.geoLocation.location.lat, data.address.geoLocation.location.lon)
-            mapHomeButton.setOnClickListener { setGoogleMap(data.address.geoLocation.location.lat, data.address.geoLocation.location.lon) }
             scrollableLayout.requestDisallowInterceptTouchEvent(true)
 
             propertyImagePagerDetail.adapter = PropertyPageAdapter(data, this@PropertyDetailActivity)
@@ -152,10 +151,10 @@ class PropertyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun setGoogleMap(lat: Double, lon: Double) {
         this.lat = lat
         this.lon = lon
-        val mapFragment = supportFragmentManager
+        mapFragment= supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-       enableScrollInsideNestedLayout()
+        enableScrollInsideNestedLayout()
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -183,10 +182,18 @@ class PropertyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-
-        // Add a marker in Sydney and move the camera
         val eventLocal = LatLng(lat, lon)
-        googleMap.addMarker(MarkerOptions().position(eventLocal).title("Aqui"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(eventLocal, 16f))
+        googleMap.addMarker(MarkerOptions().position(eventLocal).title(getString(R.string.marker_title)))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(eventLocal, MAP_ZOOM))
+        setHomeButton(googleMap, eventLocal)
+    }
+
+    private fun setHomeButton(googleMap: GoogleMap, eventLocal: LatLng) {
+        binding.mapHomeButton.setOnClickListener { googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(eventLocal, MAP_ZOOM)) }
+        googleMap.setOnCameraMoveListener {
+            val isSameLon = googleMap.cameraPosition.target.longitude == lon
+            val isSameLat = googleMap.cameraPosition.target.latitude == lat
+            binding.mapHomeButton.isInvisible = isSameLat && isSameLon
+        }
     }
 }

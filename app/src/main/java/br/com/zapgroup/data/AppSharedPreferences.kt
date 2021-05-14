@@ -2,16 +2,12 @@ package br.com.zapgroup.data
 
 import android.content.SharedPreferences
 import android.content.res.Resources
-import android.os.Build
-import androidx.annotation.RequiresApi
-import br.com.zapgroup.data.SharedValues.Companion.PROPERTY_OBJECT
-import br.com.zapgroup.data.SharedValues.Companion.PROPERTY_STORED
+import br.com.zapgroup.utils.SharedValues.Companion.PROPERTY_OBJECT
+import br.com.zapgroup.utils.SharedValues.Companion.PROPERTY_STORED
 import br.com.zapgroup.model.api.PropertyResponse
 import br.com.zapgroup.utils.pagination
 import br.com.zapgroup.utils.toDate
 import br.com.zapgroup.utils.toPropertyResponse
-import java.text.SimpleDateFormat
-import java.time.Instant
 
 class AppSharedPreferences(
     private val sharedPreferences: SharedPreferences,

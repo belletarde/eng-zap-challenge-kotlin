@@ -9,7 +9,6 @@ import androidx.viewpager.widget.PagerAdapter
 import br.com.zapgroup.R
 import br.com.zapgroup.model.api.PropertyResponse
 import br.com.zapgroup.utils.loadUrl
-import br.com.zapgroup.view.customView.PropertyPagerCount
 import com.airbnb.lottie.LottieAnimationView
 
 class PropertyPageAdapter(private val propertyResponse: PropertyResponse, private val context: Context, private val itemClick: ItemClick? = null): PagerAdapter() {

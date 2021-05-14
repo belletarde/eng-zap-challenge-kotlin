@@ -1,7 +1,7 @@
 package br.com.zapgroup
 
 import android.app.Application
-import android.content.Context
+
 import br.com.zapgroup.di.*
 import br.com.zapgroup.di.netModule
 import org.koin.android.ext.koin.androidContext
