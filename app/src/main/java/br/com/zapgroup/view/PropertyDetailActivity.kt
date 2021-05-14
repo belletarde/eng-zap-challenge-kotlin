@@ -84,21 +84,21 @@ class PropertyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             propertyImagePagerDetail.adapter = PropertyPageAdapter(data, this@PropertyDetailActivity)
             nextPagerDetail.addViewPage(propertyImagePagerDetail, data.images.size)
 
+            showIPTU(data.pricingInfos.yearlyIptu)
+            showMonthlyCondoFee(data.pricingInfos.monthlyCondoFee)
+            showLastChangeTime(data.updatedAt)
+
             if(data.pricingInfos.businessType == RENTAL) {
                 setRentalValues(data)
             } else {
                 setSellValues()
             }
-            showIPTU(data.pricingInfos.yearlyIptu)
-            showMonthlyCondoFee(data.pricingInfos.monthlyCondoFee)
-            showLastChangeTime(data.updatedAt)
-
             PropertyDetailHelper.fillData(
                 data,
                 this@PropertyDetailActivity,
                 propertyAddressDetail,
                 propertyTitle,
-                propertyPriceDetail,
+                null,
                 propertyDetailsDetail
             )
         }
@@ -119,8 +119,9 @@ class PropertyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun setRentalValues(data: PropertyResponse) {
         with(binding) {
+            propertyPriceDetail.text = getString(R.string.property_total_rental_value_detail, data.pricingInfos.price.setCurrency())
             propertyValueLabel.text = getString(R.string.rental_property)
-            total += data.pricingInfos.rentalTotalPrice.toInt()
+            total += data.pricingInfos.price.toInt()
             propertyTitle.text = getString(R.string.property_rental_title)
             propertyTotalValueDetail.text = getString(R.string.property_total_rental_value_detail, total.setCurrency())
         }
