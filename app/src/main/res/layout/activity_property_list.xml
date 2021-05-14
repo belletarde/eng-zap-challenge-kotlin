@@ -12,39 +12,54 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:weightSum="2"
+        android:background="@drawable/activity_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <Button
-            android:padding="8dp"
+        <br.com.zapgroup.view.customView.TabButton
+            style="@style/ButtonTitleTextWhite"
+
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/buttonZap"
             android:layout_margin="8dp"
-            android:background="@android:color/holo_green_light"
-            android:text="Zap"/>
+            android:background="@drawable/seleceted_list_tab_bg"
+            android:text="@string/zap"/>
 
-        <Button
+        <br.com.zapgroup.view.customView.TabButton
+            style="@style/ButtonTitleTextWhite"
             android:id="@+id/buttonViva"
             android:layout_weight="1"
             android:layout_margin="8dp"
+            android:background="@drawable/default_list_tab_bg"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@android:color/holo_green_light"
-            android:text="ViVA"/>
+            android:text="@string/viva_real"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/environmentRecycler"
+        android:id="@+id/propertyRecycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"
-        android:layout_margin="8dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonLayout"
         tools:listitem="@layout/list_item" />
+
+    <FrameLayout
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonLayout"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:visibility="gone"
+        android:id="@+id/propertyDetailErrorContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <include
+            android:id="@+id/propertyDetailErrorLayout"
+            layout="@layout/error_layout"/>
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

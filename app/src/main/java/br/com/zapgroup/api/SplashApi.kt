@@ -14,4 +14,8 @@ class SplashApi(private val apiService: ApiService, private val shared: AppShare
     override fun addPropertyToTable(propertyList: String): Boolean {
         return shared.setPropertyObjectString(propertyList)
     }
+
+    override fun hasStoredObject(): Boolean {
+        return shared.hasStoredObject()
+    }
 }

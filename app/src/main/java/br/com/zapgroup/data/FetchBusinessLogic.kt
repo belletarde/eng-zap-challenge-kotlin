@@ -8,12 +8,18 @@ import java.math.RoundingMode
 
 class FetchBusinessLogic {
     companion object {
+        const val RENTAL = "RENTAL"
+        private const val SALE = "SALE"
+        const val VIVA = "VIVA"
+        const val ZAP = "ZAP"
+
         private const val minlon = -46.693419
         private const val minlat = -23.568704
         private const val maxlon = -46.641146
         private const val maxlat = -23.546686
-        private const val RENTAL = "RENTAL"
-        private const val SALE = "SALE"
+
+        private val VIVA_BOUNDING_BOX = BigDecimal(1.5)
+        private val ZAP_BOUNDING_BOX = BigDecimal(0.9)
         private val VALUE_PER_METER = BigDecimal(3500)
         private val CONDO_FEE_PERCENT = BigDecimal(0.3)
         private val RENTAL_MAX_VIVA_PRICE = BigDecimal(4000)
@@ -37,8 +43,8 @@ class FetchBusinessLogic {
 
                     if (pricingInfos.businessType == RENTAL) {
                         val rentalPrice = BigDecimal(pricingInfos.rentalTotalPrice)
-                        if(rentalPrice > RENTAL_MAX_VIVA_PRICE) {
-                            return true
+                        if(rentalPrice > boundingBoxValue(prop, RENTAL_MAX_VIVA_PRICE, VIVA)) {
+                            return false
                         }
 
                         val monthlyCondoFee = BigDecimal(pricingInfos.monthlyCondoFee)
@@ -48,13 +54,11 @@ class FetchBusinessLogic {
                             return false
                         }
                     }
+                    return true
                 }
             } catch (e: Exception) {
                 throw e
             }
-
-
-            return true
         }
 
         fun getZapLogic(prop: PropertyResponse): Boolean {
@@ -65,7 +69,7 @@ class FetchBusinessLogic {
 
                 if(pricingInfos.businessType == SALE) {
                     val salePrice = BigDecimal(pricingInfos.price)
-                    if(salePrice < SALE_MIN_ZAP_PRICE) {
+                    if(salePrice < boundingBoxValue(prop, SALE_MIN_ZAP_PRICE, ZAP)) {
                         return false
                     }
 
@@ -103,13 +107,32 @@ class FetchBusinessLogic {
             return false
         }
 
-        fun boundingBox(prop: PropertyResponse): Boolean {
+        private fun boundingBoxSale(prop: PropertyResponse): BigDecimal {
             with(prop.address.geoLocation.location) {
                 if((lon in minlon..maxlon) && (lat in minlat..maxlat)) {
-                    return true
+
                 }
             }
-            return false
+            return SALE_MIN_ZAP_PRICE
+        }
+
+
+        private fun boundingBoxValue(prop: PropertyResponse, value: BigDecimal, type: String): BigDecimal {
+            val lon = prop.address.geoLocation.location.lon
+            val lat = prop.address.geoLocation.location.lat
+
+            if((lon in minlon..maxlon) && (lat in minlat..maxlat)) {
+                when(type) {
+                    RENTAL -> {
+                        return RENTAL_MAX_VIVA_PRICE.multiply(VIVA_BOUNDING_BOX)
+                    }
+                    SALE -> {
+                        return SALE_MIN_ZAP_PRICE.multiply(ZAP_BOUNDING_BOX)
+                    }
+                }
+            }
+
+            return value
         }
     }
 }

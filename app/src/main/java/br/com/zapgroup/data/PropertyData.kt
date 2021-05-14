@@ -7,8 +7,9 @@ interface PropertyData {
     fun getPropertyObjectString() : String
     fun setPropertyStored() : Boolean
     fun isPropertyStored() : Boolean
-    fun getVivaList(): List<PropertyResponse>
-    fun getZapList(): List<PropertyResponse>
+    fun getVivaList(page: Int = 1): List<PropertyResponse>
+    fun getZapList(page: Int = 1): List<PropertyResponse>
     fun getById(id: String): PropertyResponse
+    fun hasStoredObject(): Boolean
 }
 
