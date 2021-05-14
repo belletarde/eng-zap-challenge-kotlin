@@ -49,7 +49,7 @@ class FetchBusinessLogic {
 
                         val monthlyCondoFee = BigDecimal(pricingInfos.monthlyCondoFee)
                         val maxValueToCondoFee =
-                            BigDecimal(pricingInfos.rentalTotalPrice).multiply(CONDO_FEE_PERCENT)
+                            BigDecimal(pricingInfos.price).multiply(CONDO_FEE_PERCENT)
                         if (monthlyCondoFee >= maxValueToCondoFee) {
                             return false
                         }
@@ -82,7 +82,7 @@ class FetchBusinessLogic {
                 if(pricingInfos.businessType == RENTAL) {
                     val rentalPrice = BigDecimal(pricingInfos.rentalTotalPrice)
                     if(rentalPrice < RENTAL_MIN_ZAP_PRICE) {
-                        return true
+                        return false
                     }
                 }
             }
